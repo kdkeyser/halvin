@@ -1,0 +1,38 @@
+Name:                halvin
+Version:             0.0.0.0
+License:             Apache
+Author:              Koen De Keyser
+Maintainer:          koen.dekeyser@gmail.com
+Build-type:          Simple
+Cabal-version:       >=1.10
+Stability:           Experimental
+
+-- Library
+--  Exposed-Modules:   Halvin
+--  Build-depends:     base,
+--                     stm
+--  Hs-Source-Dirs:    src/main
+--  Default-Language:  Haskell2010
+--  Ghc-options:       -O2 -Wall
+
+Executable halvin
+  Hs-Source-Dirs:      src/main
+  Main-Is:             Main.hs
+  Default-Language:    Haskell2010
+  Ghc-options:         -O2 -Wall
+  Build-depends:       base
+
+test-suite unit-tests
+  default-language:
+   Haskell2010
+  type:
+   exitcode-stdio-1.0
+  hs-source-dirs: src/test
+  main-is: AllTests.hs
+  build-depends:       base,
+                       tasty,
+                       tasty-quickcheck,
+                       tasty-hunit,
+                       tasty-smallcheck
+
+  ghc-options:         -O2 -Wall -threaded
