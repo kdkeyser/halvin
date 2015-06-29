@@ -19,9 +19,7 @@ data Config = Config (ClusterSize,Node)
 
 data NodeState = NodeState {
     nextPosAvailable :: Integer
-  ,
   }
-
 
 main :: IO ()
 main =

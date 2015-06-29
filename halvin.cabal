@@ -16,7 +16,7 @@ Stability:           Experimental
 --  Ghc-options:       -O2 -Wall
 
 Executable halvin
-  Hs-Source-Dirs:      src/main
+  Hs-Source-Dirs:      src/main, src/halvin
   Main-Is:             Main.hs
   Default-Language:    Haskell2010
   Ghc-options:         -O2 -Wall
