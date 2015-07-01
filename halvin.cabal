@@ -20,7 +20,8 @@ Executable halvin
   Main-Is:             Main.hs
   Default-Language:    Haskell2010
   Ghc-options:         -O2 -Wall
-  Build-depends:       base
+  Build-depends:       base,
+                       PSQueue
 
 test-suite unit-tests
   default-language:
@@ -34,5 +35,6 @@ test-suite unit-tests
                        tasty-quickcheck,
                        tasty-hunit,
                        tasty-smallcheck
+
 
   ghc-options:         -O2 -Wall -threaded
