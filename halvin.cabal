@@ -21,7 +21,8 @@ Executable halvin
   Default-Language:    Haskell2010
   Ghc-options:         -O2 -Wall
   Build-depends:       base,
-                       PSQueue
+                       PSQueue,
+                       stm
 
 test-suite unit-tests
   default-language:
