@@ -1,6 +1,10 @@
+{-# LANGUAGE TemplateHaskell #-}
 module Node where
 
+import Control.Lens
+import Control.Lens.TH
 import Control.Concurrent.STM
+
 import DeliveryQueue
 import Cluster
 import Transaction
@@ -8,17 +12,19 @@ import Transaction
 newtype NodeID = NodeID Integer
 
 data NodeState a = NodeState {
-    deliveryQueue :: TVar (DeliveryQueue a)
+    _deliveryQueueTVar :: TVar (DeliveryQueue a)
   }
+makeLenses ''NodeState
 
 data Node a = Node {
-    state :: NodeState a
-  , id :: NodeID
-  , cluster :: Cluster
+    _cluster :: Cluster
+  , _id :: NodeID
+  , _state :: NodeState a
+
 }
+makeLenses ''Node
 
-getNextPosAvailable
-
-submit :: a -> Transaction a
-submit action =
-  undefined
+create :: Cluster -> NodeID -> STM (Node a)
+create cluster id = do
+    deliveryQueueTVar <- newTVar DeliveryQueue.empty
+    return $ Node cluster id $ NodeState deliveryQueueTVar

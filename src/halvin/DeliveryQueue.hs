@@ -1,19 +1,32 @@
 module DeliveryQueue where
 
-import Data.PSQueue as PSQueue
+import qualified Data.Set as Set
+import qualified Data.PSQueue as PSQueue
+
 import Transaction
 import Commutating
-
-newtype Position = Position Int deriving (Eq, Ord)
+import Position
+import NonCommutatingTransactionSet
 
 newtype DeliveryQueue a = DeliveryQueue (PSQueue.PSQ (Transaction a) Int)
 
-getNonCommutatingTransactions :: (Commutating a) => Transaction a -> DeliveryQueue a -> [Transaction a]
+empty :: DeliveryQueue a
+empty =
+    DeliveryQueue PSQueue.empty
+
+getNonCommutatingTransactions :: (Commutating a) => Transaction a -> DeliveryQueue a -> NonCommutatingTransactionSet a
 getNonCommutatingTransactions t (DeliveryQueue dq) =
-  filter (\x -> (commutates x t) == DoesNotCommutate ) $ map PSQueue.key $ PSQueue.toAscList dq
+    PSQueue.foldl (\set binding ->
+      let transaction = PSQueue.key binding in
+      if commutates t transaction == DoesNotCommutate
+      then
+        Set.insert transaction set
+      else
+        set
+    ) Set.empty dq
 
 getHighestPosition :: DeliveryQueue a -> Position
 getHighestPosition (DeliveryQueue psq) =
   case PSQueue.findMin psq of
-    Nothing -> Position 0
-    Just b -> Position $ negate $ PSQueue.prio b
+    Nothing -> 0
+    Just b -> negate $ PSQueue.prio b

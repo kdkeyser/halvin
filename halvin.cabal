@@ -22,6 +22,8 @@ Executable halvin
   Ghc-options:         -O2 -Wall
   Build-depends:       base,
                        PSQueue,
+                       containers,
+                       lens,
                        stm
 
 test-suite unit-tests
