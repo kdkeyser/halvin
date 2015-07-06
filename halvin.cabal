@@ -24,6 +24,7 @@ Executable halvin
                        PSQueue,
                        containers,
                        lens,
+                       unordered-containers,
                        stm
 
 test-suite unit-tests

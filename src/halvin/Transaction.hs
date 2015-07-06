@@ -1,24 +1,35 @@
+{-# LANGUAGE TemplateHaskell #-}
 module Transaction where
 
+import Control.Lens
+import Control.Lens.TH
+import Data.Function
+
 import Commutating
+import TransactionState
 
 newtype TransactionID = TransactionID Int deriving(Eq, Ord)
 
-data State = Pending | Accepted | Stable
-
 data Transaction a = Transaction {
-    id :: TransactionID
-  , operation :: a
-  , state :: State
+    _id :: TransactionID
+  , _operation :: a
+  , _transactionState :: TransactionState
   }
+makeLenses ''Transaction
+
+(^&^) :: Getting a c a -> (a -> a -> b) -> (c -> c -> b)
+(^&^) x y = y `on` view x
+
+onId = (^&^) Transaction.id
+onOperation = (^&^) operation
 
 instance Eq (Transaction a) where
-  (==) a b = (Transaction.id a) == (Transaction.id b)
+  (==) = onId (==)
 
 instance Ord (Transaction a) where
-  compare a b = compare (Transaction.id a) (Transaction.id b)
+  compare = onId compare
 
 instance (Commutating a) => Commutating (Transaction a) where
-  commutates a b = commutates (operation a) (operation b)
+  commutates = onOperation commutates
 
 
