@@ -25,6 +25,7 @@ Executable halvin
                        containers,
                        lens,
                        unordered-containers,
+                       hashable,
                        stm
 
 test-suite unit-tests

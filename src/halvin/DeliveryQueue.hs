@@ -20,3 +20,6 @@ getHighestPosition (DeliveryQueue psq) =
     Nothing -> 0
     Just b -> negate $ PSQueue.prio b
 
+insert :: TransactionID -> Position -> DeliveryQueue -> DeliveryQueue
+insert t p (DeliveryQueue dq) =
+    DeliveryQueue $ PSQueue.insert t p dq

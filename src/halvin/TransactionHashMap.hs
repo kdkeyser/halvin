@@ -26,3 +26,6 @@ getNonCommutatingTransactions transaction transactionIDs thm =
       else
         set
     ) Set.empty transactionIDs-}
+
+insert :: TransactionID -> Transaction a -> TransactionHashMap a -> TransactionHashMap a
+insert = HashMap.insert

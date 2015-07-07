@@ -1,14 +1,18 @@
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 module Transaction where
 
 import Control.Lens
 import Control.Lens.TH
 import Data.Function
+import Data.Hashable
 
 import Commutating
 import TransactionState
 
-newtype TransactionID = TransactionID Int deriving(Eq, Ord)
+newtype TransactionID = TransactionID Int deriving(Eq, Ord, Hashable)
+
 
 data Transaction a = Transaction {
     _id :: TransactionID
@@ -33,3 +37,5 @@ instance (Commutating a) => Commutating (Transaction a) where
   commutates = onOperation commutates
 
 
+create :: a -> Transaction a
+create = undefined
