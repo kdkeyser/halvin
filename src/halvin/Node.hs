@@ -10,6 +10,7 @@ import Cluster
 import Position
 import Commutating
 import qualified Transaction
+import qualified TransactionState
 import qualified DeliveryQueue as DQ
 
 newtype NodeID = NodeID Int
@@ -47,9 +48,11 @@ getNextPosition node = do
     (NodeID nodePositionNr) = node ^. Node.id
     clusterWidth = node ^. cluster . size
 
-submitTransaction :: (Commutating a) => Node a -> a -> STM ()
-submitTransaction node operation = do
+submitTransaction :: (Commutating a) => Node a -> a -> Transaction.TransactionID -> STM ()
+submitTransaction node operation transactionID = do
     position <- getNextPosition node
-    let transaction = Transaction.create operation
+    let transactionState = TransactionState.Leader $ TransactionState.LeaderPropose TransactionState.Sending []
+    let transaction = Transaction.create transactionID transactionState operation
     insertTransaction (node ^. state) transaction position
     return ()
+

@@ -36,6 +36,6 @@ instance Ord (Transaction a) where
 instance (Commutating a) => Commutating (Transaction a) where
   commutates = onOperation commutates
 
-
-create :: a -> Transaction a
-create = undefined
+create :: TransactionID -> TransactionState -> a -> Transaction a
+create transactionID transactionState operation =
+  Transaction transactionID operation transactionState

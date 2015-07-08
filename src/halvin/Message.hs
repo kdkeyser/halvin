@@ -1,7 +1,12 @@
 module Message where
 
-import Propose
-import AckPropose
-import Accept
+import Control.Concurrent.STM
 
-data Message a = ProposeMessage (Propose a) | AckProposeMessage (AckPropose a) | AcceptMessage (Accept a)
+import Propose
+import Accept
+import AckPropose
+import AckAccept
+
+data Message = ProposeMessage Propose | AcceptMessage Accept
+
+data AckMessage = AckProposeMessage AckPropose | AckAcceptMessage AckAccept
