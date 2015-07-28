@@ -7,6 +7,6 @@ import Accept
 import AckPropose
 import AckAccept
 
-data Message = ProposeMessage Propose | AcceptMessage Accept
+data Message = ProposeMessage Propose | AcceptMessage Accept deriving (Show)
 
-data AckMessage = AckProposeMessage AckPropose | AckAcceptMessage AckAccept
+data AckMessage = AckProposeMessage AckPropose | AckAcceptMessage AckAccept deriving (Show)

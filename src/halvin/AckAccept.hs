@@ -1,3 +1,3 @@
 module AckAccept where
 
-data AckAccept
+data AckAccept = AckAccept deriving (Show)

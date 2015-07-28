@@ -1,3 +1,3 @@
 module Accept where
 
-data Accept
+data Accept = Accept deriving (Show)

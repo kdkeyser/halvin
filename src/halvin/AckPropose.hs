@@ -1,3 +1,3 @@
 module AckPropose where
 
-data AckPropose
+data AckPropose = AckPropose deriving (Show)
